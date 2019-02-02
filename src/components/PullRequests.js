@@ -10,11 +10,11 @@ export const PullRequests = ({pullRequests}) => {
   return (
     <div>
       <h3>Pull Requests</h3>
-      <div>
-        <span style={prStyle.open}>opened</span>
-        <span style={prStyle.closed}>closed</span>
-        <span style={prStyle.merged}>merged</span>
-      </div>
+      <em>
+        <small style={prStyle.open}>opened</small>
+        <small style={{color: "red", margin: "0 5px"}}>closed</small>
+        <small style={prStyle.merged}>merged</small>
+      </em>
       <ul>
         {pullRequests.map((pullRequest, i) =>
           <li key={i}>

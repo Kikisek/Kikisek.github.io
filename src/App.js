@@ -38,7 +38,7 @@ class App extends React.Component {
           </div> :
           <div>
             <h1>Github fetcher</h1>
-            <p>Give me your Github username and I will show you some magic</p>
+            <p class="lead">Give me your Github username and I will show you some magic</p>
             <form onSubmit={this.handleSubmit} class="form-inline">
               <div class="form-group">
                 <label for="userNameInput">Github Username:</label>
