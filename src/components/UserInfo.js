@@ -1,6 +1,6 @@
 import React from 'react';
-import { PullRequests } from './pullRequests/PullRequests';
-import { ForkedRepos } from './forkedRepos/ForkedRepos'
+import { PullRequests } from './PullRequests';
+import { ForkedRepos } from './ForkedRepos'
 import { mockData as userdata } from '../mockData';
 
 const parseMockData = (data) => {
