@@ -3,25 +3,22 @@ import React from 'react';
 export class PullRequests extends React.Component {
   constructor(props) {
     super(props);
-    this.state = this.props.pullRequests;
+    this.state = {
+      data: this.props.pullRequests
+    }
   }
 
   componentDidMount() {
-    // const newState =
-    // this.state.map(pr => {
-    //   // debugger
-    //   return fetch(pr.pr.url)
-    //   .then(response => response.json())
-    //   .then(json => {
-    //     console.log(addPrState(pr, json.state))
-    //     return addPrState(pr, json.state)
-    //   })
-      
-    // })
+    let promises = this.state.data.map(pr =>
+      fetch(pr.pr.url)
+      .then(response => response.json())
+      .then(json => addPrState(pr, json.state))
+    )
 
-    // this.setState(newState);
-    
-    // console.log(this.state)
+    Promise.all(promises)
+    .then(value => this.setState({data: value}))
+
+
 
     // console.log( this.state.map(pr => addPrState(pr, 'open')))
   }
@@ -31,20 +28,18 @@ export class PullRequests extends React.Component {
       <div>
         <h3>Pull Requests</h3>
         <ul>
-          {/* {this.state.map((pullRequest, i) =>
+          {this.state.data.map((pullRequest, i) =>
             <li key={i}>
               <a href={pullRequest.pr.url}>{pullRequest.pr.title}</a>
             </li>
-          )} */}
+          )}
         </ul>
       </div>
     )
   }
 }
 
-const addPrState = (data, state) => {
-  // debugger
-  return (
+const addPrState = (data, state) => (
   {
     ...data,
     pr: {
@@ -53,4 +48,3 @@ const addPrState = (data, state) => {
     }
   }
 )
-}
