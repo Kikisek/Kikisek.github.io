@@ -1,36 +1,25 @@
 import React from 'react';
 
+const prStyle = {
+  open: {color: 'green'},
+  closed: {color: 'red'},
+  merged: {color: 'purple'}
+}
+
 export class PullRequests extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: this.props.pullRequests
-    }
-  }
-
-  componentDidMount() {
-    let promises = this.state.data.map(pr =>
-      fetch(pr.pr.url)
-      .then(response => response.json())
-      .then(json => addPrState(pr, json.state))
-    )
-
-    Promise.all(promises)
-    .then(value => this.setState({data: value}))
-
-
-
-    // console.log( this.state.map(pr => addPrState(pr, 'open')))
-  }
 
   render() {
     return (
       <div>
         <h3>Pull Requests</h3>
+        <span style={prStyle.open}>opened</span>
+        <span style={prStyle.closed}>closed</span>
+        <span style={prStyle.merged}>merged</span>
         <ul>
-          {this.state.data.map((pullRequest, i) =>
+
+          {this.props.pullRequests.map((pullRequest, i) =>
             <li key={i}>
-              <a href={pullRequest.pr.url}>{pullRequest.pr.title}</a>
+              <span>{pullRequest.pr.state}:</span><a style={prStyle[pullRequest.pr.state]} href={pullRequest.pr.url}>{pullRequest.pr.title}</a>
             </li>
           )}
         </ul>
@@ -38,13 +27,3 @@ export class PullRequests extends React.Component {
     )
   }
 }
-
-const addPrState = (data, state) => (
-  {
-    ...data,
-    pr: {
-      ...data.pr,
-      state
-    }
-  }
-)

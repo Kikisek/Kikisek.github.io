@@ -3,13 +3,24 @@ import { PullRequests } from './pullRequests/PullRequests';
 import { ForkedRepos } from './forkedRepos/ForkedRepos'
 import { mockData as userdata } from '../mockData';
 
+const parseMockData = (data) => {
+  const parsedData = parseUserData(data, 'ForkEvent', 'PullRequestEvent');
+  return (
+    {
+      ...parsedData,
+      PullRequestEvent: parsedData.PullRequestEvent.map(pr => addPrState(pr, 'open'))
+    }
+  )
+}
+
 export class UserInfo extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      userData: parseUserData(userdata, 'ForkEvent', 'PullRequestEvent')
-      // userData: {}
+      userData: parseMockData(userdata),
+      // userData: {},
+      error: false
     }
   }
 
@@ -17,17 +28,37 @@ export class UserInfo extends React.Component {
     // fetch(`https://api.github.com/users/${this.props.username}/events`)
     // .then(response => response.json())
     // .then(json => {
-    //   this.setState({ userData: parseUserData(json, 'PullRequestEvent', 'ForkEvent') });
-    //   console.log(this.state.userData);
-    // });
+    //   const parsedData = parseUserData(json, 'PullRequestEvent', 'ForkEvent');
+    //   let promises = parsedData.PullRequestEvent.map(pr =>
+    //     fetch(pr.pr.url)
+    //     .then(response => response.json())
+    //     .then(json => {
+    //       const state = json.merged ? 'merged' : json.state;
+    //       return addPrState(pr, state)
+    //     })
+    //   )
+  
+    //   Promise.all(promises)
+    //   .then(value => {
+    //     this.setState({ userData: {
+    //       ...parsedData,
+    //       PullRequestEvent: value
+    //     }})
+    //   })
+    // })
+    // .catch((err) => this.setState({error: {status: true, message: err}}))
   }
 
   render() {
     return ( 
       <div> 
-        <h2>Welcome <span style={{color: 'seagreen', fontWeight: 'normal', fontStyle: 'italic'}}>{this.props.username}</span>, here is your recent Github activity:</h2>
-        <ForkedRepos forks={this.state.userData.ForkEvent} />
-        <PullRequests pullRequests={this.state.userData.PullRequestEvent} />
+        {this.state.error ?
+        <h2>Sorry, something went wrong</h2> :
+        <div>
+          <h2>Welcome <span style={{color: 'seagreen', fontWeight: 'normal', fontStyle: 'italic'}}>{this.props.username}</span>, here is your recent Github activity:</h2>
+          <ForkedRepos forks={this.state.userData.ForkEvent || []} />
+          <PullRequests pullRequests={this.state.userData.PullRequestEvent || []} />
+        </div>}
       </div>
     )
   }
@@ -59,4 +90,14 @@ const parseUserData = (data, ...type) =>
       ]
     }
   }, {}
+)
+
+const addPrState = (data, state) => (
+  {
+    ...data,
+    pr: {
+      ...data.pr,
+      state
+    }
+  }
 )
