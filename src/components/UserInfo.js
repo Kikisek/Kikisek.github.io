@@ -1,7 +1,7 @@
 import React from 'react';
-import { PullRequests } from './PullRequests';
-import { ForkedRepos } from './ForkedRepos'
-import { mockData as userdata } from './mockData';
+import { PullRequests } from './pullRequests/PullRequests';
+import { ForkedRepos } from './forkedRepos/ForkedRepos'
+import { mockData as userdata } from '../mockData';
 
 export class UserInfo extends React.Component {
   constructor(props) {
