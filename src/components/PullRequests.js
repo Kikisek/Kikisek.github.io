@@ -6,7 +6,7 @@ const prStyle = {
   merged: {color: 'purple'}
 }
 
-export const PullRequests = (props) => {
+export const PullRequests = ({pullRequests}) => {
   return (
     <div>
       <h3>Pull Requests</h3>
@@ -16,7 +16,7 @@ export const PullRequests = (props) => {
         <span style={prStyle.merged}>merged</span>
       </div>
       <ul>
-        {props.pullRequests.map((pullRequest, i) =>
+        {pullRequests.map((pullRequest, i) =>
           <li key={i}>
             <a style={prStyle[pullRequest.pr.state]} href={pullRequest.pr.url}>{pullRequest.pr.title}</a>
           </li>
