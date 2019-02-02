@@ -18,6 +18,7 @@ class App extends React.Component {
   handleSubmit(e) {
     this.setState({ isLoggedIn: true });
     e.preventDefault();
+    this.setState({ username: ''});
   }
 
   handleChange(e) {
