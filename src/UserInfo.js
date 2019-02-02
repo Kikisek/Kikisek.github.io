@@ -1,4 +1,6 @@
 import React from 'react';
+import { PullRequests } from './PullRequests';
+import { ForkedRepos } from './ForkedRepos'
 import { mockData as userdata } from './mockData';
 
 export class UserInfo extends React.Component {
@@ -20,13 +22,12 @@ export class UserInfo extends React.Component {
     // });
   }
 
-
   render() {
     return ( 
       <div> 
-        <div>Username: {this.props.username} </div>
-        <div>PRs:</div> {this.state.userData.PullRequestEvent.map((pr, index) => <div key={index}>{pr.pr.title}</div>)}
-        <div>Forks:</div> {this.state.userData.ForkEvent.map((fork, index) => <div key={index}>{fork.repo.name}</div>)}
+        <h2>Welcome <span style={{color: 'seagreen', fontWeight: 'normal', fontStyle: 'italic'}}>{this.props.username}</span>, here is your recent Github activity:</h2>
+        <ForkedRepos forks={this.state.userData.ForkEvent} />
+        <PullRequests pullRequests={this.state.userData.PullRequestEvent} />
       </div>
     )
   }
