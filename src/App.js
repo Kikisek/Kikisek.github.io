@@ -35,8 +35,7 @@ class App extends React.Component {
           <div>
             <UserInfo username={this.state.username} />
             <button onClick={this.handleClick} type="button">Back</button>
-          </div>
-          :
+          </div> :
           <form onSubmit={this.handleSubmit}>
           <label>Github Username:
             <input value={this.state.username} onChange={this.handleChange} required/>
