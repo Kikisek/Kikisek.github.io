@@ -1,4 +1,5 @@
 import React from 'react';
+import { UserInfo } from './UserInfo';
 import './App.css';
 
 class App extends React.Component {
@@ -11,6 +12,7 @@ class App extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleSubmit(e) {
@@ -22,11 +24,18 @@ class App extends React.Component {
     this.setState({ username: e.target.value });
   }
 
+  handleClick() {
+    this.setState({ isLoggedIn: false });
+  }
+
   render() {
     return (
       <div className="App">
         {this.state.isLoggedIn ?
-          <div>Logged In</div>
+          <div>
+            <UserInfo username={this.state.username} />
+            <button onClick={this.handleClick} type="button">Back</button>
+          </div>
           :
           <form onSubmit={this.handleSubmit}>
           <label>Github Username:
