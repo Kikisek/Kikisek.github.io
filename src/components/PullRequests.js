@@ -15,13 +15,16 @@ export const PullRequests = ({pullRequests}) => {
         <small style={{color: "red", margin: "0 5px"}}>closed</small>
         <small style={prStyle.merged}>merged</small>
       </em>
+      {pullRequests.length ?
       <ul>
         {pullRequests.map((pullRequest, i) =>
           <li key={i}>
             <a style={prStyle[pullRequest.pr.state]} href={pullRequest.pr.url}>{pullRequest.pr.title}</a>
           </li>
         )}
-      </ul>
+      </ul> :
+      <div> - </div>
+      }
     </div>
   )
 }
