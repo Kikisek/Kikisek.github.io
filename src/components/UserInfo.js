@@ -1,52 +1,57 @@
 import React from 'react';
 import { PullRequests } from './PullRequests';
-import { ForkedRepos } from './ForkedRepos'
-import { mockData as userdata } from '../mockData';
+import { ForkedRepos } from './ForkedRepos';
 
-const parseMockData = (data) => {
-  const parsedData = parseUserData(data, 'ForkEvent', 'PullRequestEvent');
-  return (
-    {
-      ...parsedData,
-      pullRequestEvent: parsedData.pullRequestEvent.map(pr => addPrState(pr, 'open'))
-    }
-  )
-}
+// MOCK DATA:
+// When mocking Github API response, uncomment these comments & comment out componentDidMount()
+
+// import { mockData as userdata } from '../mockData';
+
+// const parseMockData = (data) => {
+//   const parsedData = parseUserData(data, 'ForkEvent', 'PullRequestEvent');
+//   return (
+//     {
+//       ...parsedData,
+//       pullRequestEvent: parsedData.pullRequestEvent.map(pr => addPrState(pr, 'open'))
+//     }
+//   )
+// }
 
 export class UserInfo extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      userData: parseMockData(userdata),
-      // userData: {},
+      // MOCK DATA:
+      // userData: parseMockData(userdata),
+      userData: {},
       error: false
     }
   }
 
   componentDidMount() {
-    // fetch(`https://api.github.com/users/${this.props.username}/events`)
-    // .then(response => response.json())
-    // .then(json => {
-    //   const parsedData = parseUserData(json, 'PullRequestEvent', 'ForkEvent');
-    //   let promises = parsedData.pullRequestEvent.map(pr =>
-    //     fetch(pr.pr.url)
-    //     .then(response => response.json())
-    //     .then(json => {
-    //       const state = json.merged ? 'merged' : json.state;
-    //       return addPrState(pr, state)
-    //     })
-    //   )
+    fetch(`https://api.github.com/users/${this.props.username}/events`)
+    .then(response => response.json())
+    .then(json => {
+      const parsedData = parseUserData(json, 'PullRequestEvent', 'ForkEvent');
+      let promises = parsedData.pullRequestEvent.map(pr =>
+        fetch(pr.pr.url)
+        .then(response => response.json())
+        .then(json => {
+          const state = json.merged ? 'merged' : json.state;
+          return addPrState(pr, state)
+        })
+      )
   
-    //   Promise.all(promises)
-    //   .then(value => {
-    //     this.setState({ userData: {
-    //       ...parsedData,
-    //       pullRequestEvent: value
-    //     }})
-    //   })
-    // })
-    // .catch((err) => this.setState({error: {status: true, message: err}}))
+      Promise.all(promises)
+      .then(value => {
+        this.setState({ userData: {
+          ...parsedData,
+          pullRequestEvent: value
+        }})
+      })
+    })
+    .catch((err) => this.setState({error: {status: true, message: err}}))
   }
 
   render() {
