@@ -12,7 +12,7 @@ export const PullRequests = ({pullRequests}) => {
       <h3>Pull Requests</h3>
       <em>
         <small style={prStyle.open}>opened</small>
-        <small style={{color: "red", margin: "0 5px"}}>closed</small>
+        <small style={{...prStyle.closed, margin: "0 5px"}}>closed</small>
         <small style={prStyle.merged}>merged</small>
       </em>
       {pullRequests.length ?

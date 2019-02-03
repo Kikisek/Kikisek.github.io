@@ -8,7 +8,7 @@ const parseMockData = (data) => {
   return (
     {
       ...parsedData,
-      PullRequestEvent: parsedData.PullRequestEvent.map(pr => addPrState(pr, 'open'))
+      pullRequestEvent: parsedData.pullRequestEvent.map(pr => addPrState(pr, 'open'))
     }
   )
 }
@@ -29,7 +29,7 @@ export class UserInfo extends React.Component {
     // .then(response => response.json())
     // .then(json => {
     //   const parsedData = parseUserData(json, 'PullRequestEvent', 'ForkEvent');
-    //   let promises = parsedData.PullRequestEvent.map(pr =>
+    //   let promises = parsedData.pullRequestEvent.map(pr =>
     //     fetch(pr.pr.url)
     //     .then(response => response.json())
     //     .then(json => {
@@ -42,7 +42,7 @@ export class UserInfo extends React.Component {
     //   .then(value => {
     //     this.setState({ userData: {
     //       ...parsedData,
-    //       PullRequestEvent: value
+    //       pullRequestEvent: value
     //     }})
     //   })
     // })
@@ -56,8 +56,8 @@ export class UserInfo extends React.Component {
         <h2>Sorry, something went wrong</h2> :
         <div>
           <h2>Welcome <span style={{color: 'seagreen', fontWeight: 'normal', fontStyle: 'italic'}}>{this.props.username}</span>, here is your recent Github activity:</h2>
-          <ForkedRepos forks={this.state.userData.ForkEvent || []} />
-          <PullRequests pullRequests={this.state.userData.PullRequestEvent || []} />
+          <ForkedRepos forks={this.state.userData.forkEvent || []} />
+          <PullRequests pullRequests={this.state.userData.pullRequestEvent || []} />
         </div>}
       </div>
     )
@@ -69,7 +69,7 @@ const parseUserData = (data, ...type) =>
   .reduce((accumulator, currentType) => {
     return {
       ...accumulator,
-      [currentType]: [
+      [removeCapitalization(currentType)]: [
         ...data
         .filter(event => event.type === currentType)
         .reduce((acc, current) => [
@@ -101,3 +101,5 @@ const addPrState = (data, state) => (
     }
   }
 )
+
+const removeCapitalization = str => str.charAt(0).toLowerCase() + str.slice(1);

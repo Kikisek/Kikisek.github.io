@@ -18,7 +18,6 @@ class App extends React.Component {
   handleSubmit(e) {
     this.setState({ isLoggedIn: true });
     e.preventDefault();
-    this.setState({ username: ''});
   }
 
   handleChange(e) {
@@ -26,7 +25,10 @@ class App extends React.Component {
   }
 
   handleClick() {
-    this.setState({ isLoggedIn: false });
+    this.setState({
+      isLoggedIn: false,
+      username: ''
+    });
   }
 
   render() {
@@ -35,17 +37,17 @@ class App extends React.Component {
         {this.state.isLoggedIn ?
           <div>
             <UserInfo username={this.state.username} />
-            <button onClick={this.handleClick} type="button" class="btn btn-default">Back</button>
+            <button onClick={this.handleClick} type="button" className="btn btn-default">Back</button>
           </div> :
           <div>
             <h1>Github fetcher</h1>
-            <p class="lead">Give me your Github username and I will show you some magic</p>
-            <form onSubmit={this.handleSubmit} class="form-inline">
-              <div class="form-group">
-                <label for="userNameInput">Github Username:</label>
-                <input value={this.state.username} onChange={this.handleChange} required class="form-control" id="userNameInput" style={{margin: "30px 10px"}} />
+            <p className="lead">Give me your Github username and I will show you some magic</p>
+            <form onSubmit={this.handleSubmit} className="form-inline">
+              <div className="form-group">
+                <label htmlFor="userNameInput">Github Username:</label>
+                <input value={this.state.username} onChange={this.handleChange} required className="form-control" id="userNameInput" style={{margin: "30px 10px"}} />
               </div>
-              <button type="submit" class="btn btn-primary" disabled={!this.state.username}>Submit</button>
+              <button type="submit" className="btn btn-primary" disabled={!this.state.username}>Submit</button>
             </form>
           </div>
         }
