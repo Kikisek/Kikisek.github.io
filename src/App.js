@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { UserInfo } from './components/UserInfo';
+import { loginAction } from'./actions/loginAction';
 import './App.css';
 
 class App extends React.Component {
@@ -16,6 +18,7 @@ class App extends React.Component {
   }
 
   handleSubmit(e) {
+    this.props.loginAction();
     this.setState({ isLoggedIn: true });
     e.preventDefault();
   }
@@ -56,4 +59,12 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  ...state
+});
+
+const mapDispatchToProps = dispatch => ({
+  handleSubmit: () => dispatch(loginAction())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
