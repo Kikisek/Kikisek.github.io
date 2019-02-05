@@ -8,7 +8,7 @@ export const ForkedRepos = ({forks}) => {
       <ul>
         {forks.map((fork, i) =>
           <li key={i}>
-            <a href={fork.repo.url}>{fork.repo.name}</a>
+            <a href={fork.url}>{fork.name}</a>
           </li>
         )}
       </ul> :

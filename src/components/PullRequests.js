@@ -19,7 +19,7 @@ export const PullRequests = ({pullRequests}) => {
       <ul>
         {pullRequests.map((pullRequest, i) =>
           <li key={i}>
-            <a style={prStyle[pullRequest.pr.state]} href={pullRequest.pr.url}>{pullRequest.pr.title}</a>
+            <a style={prStyle[pullRequest.state]} href={pullRequest.url}>{pullRequest.title}</a>
           </li>
         )}
       </ul> :
