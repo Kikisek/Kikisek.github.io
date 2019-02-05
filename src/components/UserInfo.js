@@ -19,11 +19,11 @@ export class UserInfo extends React.Component {
         const parsedData = parseEvents(json, 'PullRequestEvent');
         let promises = parsedData.map(pr =>
           fetch(pr.url)
-          .then(response => response.json())
-          .then(json => {
-            const state = json.merged ? 'merged' : json.state;
-            return {...pr, state}
-          })
+            .then(response => response.json())
+            .then(json => {
+              const state = json.merged ? 'merged' : json.state;
+              return {...pr, state}
+            })
         )
       
         return Promise.all(promises)
@@ -39,10 +39,20 @@ export class UserInfo extends React.Component {
     fetch(`https://api.github.com/users/${this.props.username}/repos`)
       .then(response => response.json())
       .then(json => {
-        this.setState({userData : {
-          ...this.state.userData,
-          forks: parseForks(json)
-        }})
+        const parsedForks = parseForks(json);
+        let promises = parsedForks.map(fork =>
+          fetch(fork.url)
+            .then(response => response.json())
+            .then(json => ({...fork, url: json.parent.html_url}))
+        )
+
+        return Promise.all(promises)
+          .then(value => {
+            this.setState({userData : {
+              ...this.state.userData,
+              forks: value
+            }})
+          })
       })
       .catch((err) => this.setState({error: {status: true, message: err}}));
   }
@@ -78,6 +88,6 @@ const parseForks = (data) =>
     .map(value => (
       {
         name: value.name,
-        url: value.html_url
+        url: value.url
       }
     ));
