@@ -24,7 +24,6 @@ export class UserInfo extends React.Component {
               const state = json.merged ? 'merged' : json.state;
               return {...pr, state: state}
             })
-            .catch(err => {console.log('Err'); console.log(err)})
         )
       
         return Promise.all(promises)
