@@ -18,12 +18,13 @@ export class UserInfo extends React.Component {
       .then(json => {
         const parsedData = parseEvents(json, 'PullRequestEvent');
         let promises = parsedData.map(pr =>
-          fetch(pr.url)
+          fetch(pr.apiUrl)
             .then(response => response.json())
             .then(json => {
               const state = json.merged ? 'merged' : json.state;
-              return {...pr, state}
+              return {...pr, state: state}
             })
+            .catch(err => {console.log('Err'); console.log(err)})
         )
       
         return Promise.all(promises)
@@ -78,7 +79,8 @@ const parseEvents = (data, type) =>
     .map(event => (
       {
         title: event.payload.pull_request.title,
-        url: event.payload.pull_request.url
+        apiUrl: event.payload.pull_request.url,
+        url: event.payload.pull_request.html_url
       }
     ));
 

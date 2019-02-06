@@ -3,7 +3,8 @@ import React from 'react';
 const prStyle = {
   open: {color: 'green'},
   closed: {color: 'red'},
-  merged: {color: 'purple'}
+  merged: {color: 'purple'},
+  default: {color: 'black'}
 }
 
 export const PullRequests = ({pullRequests}) => {
@@ -19,7 +20,7 @@ export const PullRequests = ({pullRequests}) => {
       <ul>
         {pullRequests.map((pullRequest, i) =>
           <li key={i}>
-            <a style={prStyle[pullRequest.state]} href={pullRequest.url}>{pullRequest.title}</a>
+            <a style={prStyle[pullRequest.state ? pullRequest.state : 'default']} href={pullRequest.url}>{pullRequest.title}</a>
           </li>
         )}
       </ul> :
