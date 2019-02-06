@@ -4,7 +4,7 @@ const prStyle = {
   open: {color: 'green'},
   closed: {color: 'red'},
   merged: {color: 'purple'},
-  default: {color: 'black'}
+  default: {color: 'black', pointerEvents: 'none', cursor: 'default', textDecoration: 'none'}
 }
 
 export const PullRequests = ({pullRequests}) => {
@@ -15,6 +15,7 @@ export const PullRequests = ({pullRequests}) => {
         <small style={prStyle.open}>opened</small>
         <small style={{...prStyle.closed, margin: "0 5px"}}>closed</small>
         <small style={prStyle.merged}>merged</small>
+        <small style={{...prStyle.default, margin: "0 5px"}}>no info</small>
       </em>
       {pullRequests.length ?
       <ul>
