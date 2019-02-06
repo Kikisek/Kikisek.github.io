@@ -73,21 +73,16 @@ export class UserInfo extends React.Component {
   }
 }
 
-const parseEvents = (data, type) => {
-  const parsedResponse = data
-    .filter(event => event.type === type)
+const parseEvents = (data, type) =>
+  data
+    .filter(event => event.type === type && event.payload.action === "opened")
     .map(event => (
       {
         title: event.payload.pull_request.title,
         apiUrl: event.payload.pull_request.url,
         url: event.payload.pull_request.html_url
       }
-    ))
-    // debugger
-  return parsedResponse.filter((value, i, array) => {
-    debugger
-    return array.indexOf(JSON.stringify(value)) === i}); ;
-};
+    ));
 
 const parseForks = (data) =>
   data
