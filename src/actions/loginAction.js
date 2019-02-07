@@ -1,6 +1,5 @@
-export const loginAction = () => dispatch => {
-  dispatch({
+export const loginAction = () => {
+  return {
    type: 'LOGIN_ACTION',
-   payload: 'result_of_login_action'
-  })
+  }
  }
