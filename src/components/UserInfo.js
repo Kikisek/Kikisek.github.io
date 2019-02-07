@@ -24,7 +24,6 @@ export class UserInfo extends React.Component {
               const state = json.merged ? 'merged' : json.state;
               return {...pr, state: state}
             })
-            .catch(err => {console.log('Err'); console.log(err)})
         )
       
         return Promise.all(promises)
@@ -75,7 +74,7 @@ export class UserInfo extends React.Component {
 
 const parseEvents = (data, type) =>
   data
-    .filter(event => event.type === type)
+    .filter(event => event.type === type && event.payload.action === "opened")
     .map(event => (
       {
         title: event.payload.pull_request.title,
