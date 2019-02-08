@@ -7,7 +7,29 @@ const prStyle = {
   default: {color: 'black', pointerEvents: 'none', cursor: 'default', textDecoration: 'none'}
 }
 
-export const PullRequests = ({pullRequests}) => {
+export const PullRequests = ({pullRequests, loading}) => {
+  const renderPullRequests = () => {
+    if (loading) {
+      return (
+        <div>Loading...</div>
+      )
+    } else if (!loading && !pullRequests.length) {
+      return (
+        <div>No results</div>
+      )
+    } else {
+      return (
+        <ul>
+          {pullRequests.map((pullRequest, i) =>
+            <li key={i}>
+              <a style={prStyle[pullRequest.state ? pullRequest.state : 'default']} href={pullRequest.url}>{pullRequest.title}</a>
+            </li>
+          )}
+        </ul>
+      )
+    }
+  }
+
   return (
     <div>
       <h3>Pull Requests</h3>
@@ -17,16 +39,7 @@ export const PullRequests = ({pullRequests}) => {
         <small style={prStyle.merged}>merged</small>
         <small style={{...prStyle.default, margin: "0 5px"}}>no info</small>
       </em>
-      {pullRequests.length ?
-      <ul>
-        {pullRequests.map((pullRequest, i) =>
-          <li key={i}>
-            <a style={prStyle[pullRequest.state ? pullRequest.state : 'default']} href={pullRequest.url}>{pullRequest.title}</a>
-          </li>
-        )}
-      </ul> :
-      <div> - </div>
-      }
+      {renderPullRequests()}
     </div>
   )
 }

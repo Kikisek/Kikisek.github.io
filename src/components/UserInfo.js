@@ -15,8 +15,8 @@ export class UserInfo extends React.Component {
         <h2>Sorry, something went wrong</h2> :
         <div>
           <h2>Welcome <span style={{color: 'seagreen', fontWeight: 'normal', fontStyle: 'italic'}}>{this.props.mappedProps.username}</span>, here is your recent Github activity:</h2>
-          <ForkedRepos forks={this.props.mappedProps.userData.forks || []} />
-          <PullRequests pullRequests={this.props.mappedProps.userData.pullRequestEvent || []} />
+          <ForkedRepos forks={this.props.mappedProps.userData.forks || []} loading={this.props.mappedProps.forksLoading} />
+          <PullRequests pullRequests={this.props.mappedProps.userData.pullRequestEvent || []} loading={this.props.mappedProps.pullRequestsLoading} />
         </div>}
       </div>
     )

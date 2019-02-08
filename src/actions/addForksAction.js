@@ -12,22 +12,36 @@ const addForksFailAction = data => (
   }
 )
 
-export const fetchForks = username =>
-  dispatch =>
-    fetch(`https://api.github.com/users/${username}/repos`)
-    .then(response => response.json())
-    .then(json => {
-      const parsedForks = parseForks(json);
-      let promises = parsedForks.map(fork =>
-        fetch(fork.url)
-          .then(response => response.json())
-          .then(json => ({...fork, url: json.parent.html_url}))
-      )
+const addForksLoadingAction = () => (
+  {
+    type: 'ADD_FORKS_LOADING_ACTION'
+  }
+)
 
-      return Promise.all(promises)
-        .then(value => dispatch(addForksSuccessAction(value)));
-    })
-    .catch(err => dispatch(addForksFailAction(err)));
+export const fetchForks = username =>
+  dispatch => {
+    dispatch(addForksLoadingAction());
+    fetch(`https://api.github.com/users/${username}/repos`)
+      .then(response => response.json())
+      .then(json => {
+        const parsedForks = parseForks(json);
+        let promises = parsedForks.map(fork =>
+          fetch(fork.url)
+            .then(response => response.json())
+            .then(json => ({...fork, url: json.parent.html_url}))
+        )
+
+        return Promise.all(promises)
+          .then(value => {
+            dispatch(addForksSuccessAction(value))
+            dispatch(addForksLoadingAction());
+          });
+      })
+      .catch(err => {
+        dispatch(addForksFailAction(err));
+        dispatch(addForksLoadingAction());
+      });
+  }
 
 const parseForks = data =>
   data

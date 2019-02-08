@@ -2,7 +2,9 @@ const initialState = {
   isLoggedIn: false,
   username: '',
   userData: {},
-  error: false
+  error: false,
+  pullRequestsLoading: false,
+  forksLoading: false
 }
 
 export const rootReducer = (state = initialState, action) => {
@@ -22,7 +24,14 @@ export const rootReducer = (state = initialState, action) => {
         ...state,
         isLoggedIn: false,
         username: '',
-        userData: {}
+        userData: {},
+        pullRequestsLoading: false,
+        forksLoading: false
+      }
+    case 'ADD_PULL_REQUESTS_LOADING_ACTION':
+      return {
+        ...state,
+        pullRequestsLoading: !state.pullRequestsLoading
       }
     case 'ADD_PULL_REQUESTS_SUCCESS_ACTION':
       return {
@@ -47,6 +56,11 @@ export const rootReducer = (state = initialState, action) => {
           ...state.userData,
           forks: action.forks
         }
+      }
+    case 'ADD_FORKS_LOADING_ACTION':
+      return {
+        ...state,
+        forksLoading: !state.forksLoading
       }
     case 'ADD_FORKS_FAIL_ACTION':
       return {

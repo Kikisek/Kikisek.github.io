@@ -12,25 +12,39 @@ const addPullRequestsFailAction = data => (
   }
 )
 
+const addPullRequestLoadingAction = () => (
+  {
+    type: 'ADD_PULL_REQUESTS_LOADING_ACTION'
+  }
+)
+
 export const fetchPullRequests = username =>
-  dispatch =>
+  dispatch => {
+    dispatch(addPullRequestLoadingAction());
     fetch(`https://api.github.com/users/${username}/events`)
-    .then(response => response.json())
-    .then(json => {
-      const parsedData = parseEvents(json, 'PullRequestEvent');
-      let promises = parsedData.map(pr =>
-        fetch(pr.apiUrl)
-          .then(response => response.json())
-          .then(json => {
-            const state = json.merged ? 'merged' : json.state;
-            return {...pr, state: state}
-          })
-      )
-    
-      return Promise.all(promises)
-      .then(value => dispatch(addPullRequestsSuccessAction(value)));
-    })
-    .catch(err => dispatch(addPullRequestsFailAction(err)));
+      .then(response => response.json())
+      .then(json => {
+        const parsedData = parseEvents(json, 'PullRequestEvent');
+        let promises = parsedData.map(pr =>
+          fetch(pr.apiUrl)
+            .then(response => response.json())
+            .then(json => {
+              const state = json.merged ? 'merged' : json.state;
+              return {...pr, state: state}
+            })
+        )
+      
+        return Promise.all(promises)
+        .then(value => {
+          dispatch(addPullRequestsSuccessAction(value));
+          dispatch(addPullRequestLoadingAction());
+        });
+      })
+      .catch(err => {
+        dispatch(addPullRequestsFailAction(err));
+        dispatch(addPullRequestLoadingAction());
+      });
+    }
 
 const parseEvents = (data, type) =>
   data
