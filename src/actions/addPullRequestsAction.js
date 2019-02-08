@@ -12,8 +12,8 @@ const addPullRequestsFailAction = data => (
   }
 )
 
-export const fetchPullRequests = (username) => {
-  return (dispatch, getState) => {
+export const fetchPullRequests = username =>
+  dispatch =>
     fetch(`https://api.github.com/users/${username}/events`)
     .then(response => response.json())
     .then(json => {
@@ -31,16 +31,14 @@ export const fetchPullRequests = (username) => {
       .then(value => dispatch(addPullRequestsSuccessAction(value)));
     })
     .catch(err => dispatch(addPullRequestsFailAction(err)));
-  }
-}
 
 const parseEvents = (data, type) =>
-data
-  .filter(event => event.type === type && event.payload.action === "opened")
-  .map(event => (
-    {
-      title: event.payload.pull_request.title,
-      apiUrl: event.payload.pull_request.url,
-      url: event.payload.pull_request.html_url
-    }
-  ));
+  data
+    .filter(event => event.type === type && event.payload.action === "opened")
+    .map(event => (
+      {
+        title: event.payload.pull_request.title,
+        apiUrl: event.payload.pull_request.url,
+        url: event.payload.pull_request.html_url
+      }
+    ));

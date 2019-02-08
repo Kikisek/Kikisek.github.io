@@ -5,7 +5,7 @@ import { loginAction } from './actions/loginAction';
 import { logoutAction } from './actions/lougoutAction';
 import { submitUsernameAction } from './actions/submitUsernameAction';
 import { fetchPullRequests } from './actions/addPullRequestsAction';
-
+import { fetchForks } from './actions/addForksAction';
 import './App.css';
 
 class App extends React.Component {
@@ -61,7 +61,7 @@ const mapDispatchToProps = dispatch => ({
   submitUsernameAction: (username) => dispatch(submitUsernameAction(username)),
   logoutAction: () => dispatch(logoutAction()),
   fetchPullRequests: (username) => dispatch(fetchPullRequests(username)),
-  
+  fetchForks: (username) => dispatch(fetchForks(username))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -40,6 +40,22 @@ export const rootReducer = (state = initialState, action) => {
           message: action.error
         }
       }
+    case 'ADD_FORKS_SUCCESS_ACTION':
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          forks: action.forks
+        }
+      }
+    case 'ADD_FORKS_FAIL_ACTION':
+      return {
+        ...state,
+        error: {
+          status: true,
+          message: action.error
+        }
+      }
     default:
      return state;
   }
