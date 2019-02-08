@@ -1,6 +1,8 @@
 const initialState = {
   isLoggedIn: false,
-  username: ''
+  username: '',
+  userData: {},
+  error: false
 }
 
 export const rootReducer = (state = initialState, action) => {
@@ -19,7 +21,16 @@ export const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedIn: false,
-        username: ''
+        username: '',
+        userData: {}
+      }
+    case 'ADD_PULL_REQUESTS_ACTION':
+      return {
+        ...state,
+        userData: {
+          ...state.userData,
+          pullRequestEvent: action.pullRequestEvent
+        }
       }
     default:
      return state;

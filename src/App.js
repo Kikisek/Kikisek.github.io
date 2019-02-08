@@ -4,6 +4,8 @@ import { UserInfo } from './components/UserInfo';
 import { loginAction } from './actions/loginAction';
 import { logoutAction } from './actions/lougoutAction';
 import { submitUsernameAction } from './actions/submitUsernameAction';
+import { fetchPullRequests } from './actions/addPullRequestsAction';
+
 import './App.css';
 
 class App extends React.Component {
@@ -32,7 +34,7 @@ class App extends React.Component {
       <div className="App">
         {this.props.isLoggedIn ?
           <div>
-            <UserInfo username={this.props.username} />
+            <UserInfo mappedProps={this.props}/>
             <button onClick={this.logout} type="button" className="btn btn-default">Back</button>
           </div> :
           <div>
@@ -52,14 +54,14 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  ...state
-});
+const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
   loginAction: () => dispatch(loginAction()),
   submitUsernameAction: (username) => dispatch(submitUsernameAction(username)),
-  logoutAction: () => dispatch(logoutAction())
+  logoutAction: () => dispatch(logoutAction()),
+  fetchPullRequests: (username) => dispatch(fetchPullRequests(username)),
+  
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
