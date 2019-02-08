@@ -1,43 +1,9 @@
 import React from 'react';
-// import { connect } from 'react-redux';
-// import { fetchPullRequests } from '../actions/addPullRequestsAction';
 import { PullRequests } from './PullRequests';
 import { ForkedRepos } from './ForkedRepos';
 
 export class UserInfo extends React.Component {
-  // constructor(props) {
-  //   super(props);
-
-    // this.state = {
-    //   userData: {},
-    //   error: false
-    // }
-  // }
-
   componentDidMount() {
-    // fetch(`https://api.github.com/users/${this.props.username}/events`)
-    //   .then(response => response.json())
-    //   .then(json => {
-    //     const parsedData = parseEvents(json, 'PullRequestEvent');
-    //     let promises = parsedData.map(pr =>
-    //       fetch(pr.apiUrl)
-    //         .then(response => response.json())
-    //         .then(json => {
-    //           const state = json.merged ? 'merged' : json.state;
-    //           return {...pr, state: state}
-    //         })
-    //     )
-      
-    //     return Promise.all(promises)
-    //     .then(value => {
-    //       this.setState({ userData: {
-    //         ...this.state.userData,
-    //         pullRequestEvent: value
-    //       }})
-    //     })
-    //   })
-    //   .catch((err) => this.setState({error: {status: true, message: err}}));
-
     this.props.mappedProps.fetchPullRequests(this.props.mappedProps.username);
 
     // fetch(`https://api.github.com/users/${this.props.username}/repos`)
@@ -64,7 +30,6 @@ export class UserInfo extends React.Component {
   render() {
     return ( 
       <div> 
-        {/* <button onClick={this.props.fetchPullRequests(this.props.username)}>click</button> */}
         {this.props.mappedProps.error ?
         <h2>Sorry, something went wrong</h2> :
         <div>
@@ -77,17 +42,6 @@ export class UserInfo extends React.Component {
   }
 }
 
-// const parseEvents = (data, type) =>
-//   data
-//     .filter(event => event.type === type && event.payload.action === "opened")
-//     .map(event => (
-//       {
-//         title: event.payload.pull_request.title,
-//         apiUrl: event.payload.pull_request.url,
-//         url: event.payload.pull_request.html_url
-//       }
-//     ));
-
 const parseForks = (data) =>
   data
     .filter(value => value.fork)
@@ -97,11 +51,3 @@ const parseForks = (data) =>
         url: value.url
       }
     ));
-
-    // const mapStateToProps = state => state;
-    
-    // const mapDispatchToProps = dispatch => ({
-    //   fetchPullRequests: (username) => dispatch(fetchPullRequests(username)),
-    // })
-    
-    // export default connect(mapStateToProps, mapDispatchToProps)(UserInfo);

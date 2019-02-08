@@ -24,12 +24,20 @@ export const rootReducer = (state = initialState, action) => {
         username: '',
         userData: {}
       }
-    case 'ADD_PULL_REQUESTS_ACTION':
+    case 'ADD_PULL_REQUESTS_SUCCESS_ACTION':
       return {
         ...state,
         userData: {
           ...state.userData,
           pullRequestEvent: action.pullRequestEvent
+        }
+      }
+    case 'ADD_PULL_REQUESTS_FAIL_ACTION':
+      return {
+        ...state,
+        error: {
+          status: true,
+          message: action.error
         }
       }
     default:

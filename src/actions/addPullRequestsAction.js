@@ -1,9 +1,16 @@
-export const addPullRequestsSuccessAction = (data) => {
-  return {
-   type: 'ADD_PULL_REQUESTS_ACTION',
+const addPullRequestsSuccessAction = data => (
+  {
+   type: 'ADD_PULL_REQUESTS_SUCCESS_ACTION',
    pullRequestEvent: data
   }
-}
+)
+
+const addPullRequestsFailAction = data => (
+  {
+    type: 'ADD_PULL_REQUESTS_FAIL_ACTION',
+    error: data
+  }
+)
 
 export const fetchPullRequests = (username) => {
   return (dispatch, getState) => {
@@ -21,11 +28,9 @@ export const fetchPullRequests = (username) => {
       )
     
       return Promise.all(promises)
-      .then(value => {
-        dispatch(addPullRequestsSuccessAction(value));
-      })
+      .then(value => dispatch(addPullRequestsSuccessAction(value)));
     })
-    // .catch((err) => this.setState({error: {status: true, message: err}}));
+    .catch(err => dispatch(addPullRequestsFailAction(err)));
   }
 }
 
