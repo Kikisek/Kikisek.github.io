@@ -15,8 +15,12 @@ code {
 
 li {
   list-style: none;
+  padding: 5px 0;
 }
 
 ul {
-  padding: 0;
+  padding: 20px 0;
+  width: 300px;
+  margin: 0 auto;
+  text-align: left;
 }
