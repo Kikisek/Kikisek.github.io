@@ -1,4 +1,6 @@
-# Bridge Personal Project
+# Bridge School Personal Project
+
+Deployed at https://github-fetcher.netlify.app/
 
 ## Due Date
 Due by 9am on February 12th
